@@ -1,41 +1,39 @@
 body {
 	font-family: Arial, sans-serif;
+	background-color: #454545;
+	color: #FFFFFF;
 	margin: 0;
 	padding: 0;
 }
 
 header {
-	background-color: #333;
-	color: #fff;
+	background-color: #FF6000;
 	padding: 20px;
 }
 
-h1 {
+h1, h2, h3 {
 	margin: 0;
 }
 
 nav ul {
+	list-style: none;
 	margin: 0;
 	padding: 0;
-	list-style: none;
-	background-color: #f2f2f2;
+	display: flex;
+	justify-content: space-between;
 }
 
 nav li {
-	display: inline-block;
-	margin-right: 10px;
+	margin: 0 10px;
 }
 
-nav li a {
-	display: block;
-	padding: 10px;
-	color: #333;
+nav a {
+	color: #FFFFFF;
 	text-decoration: none;
 }
 
-nav li a:hover {
-	background-color: #333;
-	color: #fff;
+nav a:hover {
+	text-decoration: underline;
 }
 
 main {
@@ -43,20 +41,87 @@ main {
 }
 
 section {
-	margin-bottom: 20px;
+	margin: 40px 0;
 }
 
 h2 {
-	font-size: 24px;
+	font-size: 36px;
+	line-height: 1.2;
 }
 
-h3 {
-	font-size: 18px;
+.content {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	margin-top: 20px;
 }
 
-footer {
-	background-color: #333;
-	color: #fff;
-	padding: 10px;
+.content p {
+	margin: 20px;
+}
+
+.project {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: #FFFFFF;
+	color: #454545;
+	padding: 20px;
 	text-align: center;
+	margin: 10px;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	transition: box-shadow 0.3s ease-in-out;
+}
+
+.project:hover {
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+}
+
+.project img {
+	max-width: 100%;
+	height: auto;
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+label {
+	font-size: 20px;
+	margin-top: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+	padding: 10px;
+	border-radius: 5px;
+	border: none;
+	margin-bottom: 20px;
+}
+
+textarea {
+	height: 150px;
+}
+
+input[type="submit"] {
+	background-color: #FF6000;
+	color: #FFFFFF;
+	padding: 10px 20px;
+	border-radius: 5px;
+	border: none;
+	cursor: pointer;
+	transition: background-color 0.3s ease-in-out;
+}
+
+input[type="submit"]:hover {
+	background-color: #FF8533;
 }
