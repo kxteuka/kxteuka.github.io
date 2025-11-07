@@ -42,6 +42,25 @@ function openBlog(){const old=document.getElementById('blog-window');if(old)old.
 
 const startBtn=document.getElementById('start')
 const startMenu=document.getElementById('start-menu')
+function toggleStart() {
+  const isOpen = startMenu.classList.contains('open')
+  startMenu.classList.toggle('open', !isOpen)
+}
+
+startBtn.addEventListener('click', e => {
+  e.stopPropagation()
+  toggleStart()
+})
+
+document.addEventListener('click', e => {
+  if (!startMenu.contains(e.target) && !startBtn.contains(e.target))
+    startMenu.classList.remove('open')
+})
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape')
+    startMenu.classList.remove('open')
+})
 startBtn.addEventListener('click',e=>{e.stopPropagation();toggleStart()})
 document.addEventListener('click',e=>{if(!startMenu.contains(e.target)&&!startBtn.contains(e.target))startMenu.classList.remove('open')})
 document.addEventListener('keydown',e=>{if(e.key==='Escape')startMenu.classList.remove('open')})
