@@ -1,32 +1,92 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Iván López Cabanas</title>
-		<link rel="stylesheet" href="style.css">
-	</head>
-	<body>
-		<header>
-			<h1>Iván López Cabanas</h1>
-		</header>
-		<main>
-			<section>
-				<h2>Redes Sociales</h2>
-				<div class="social-icons">
-					<a href="#" class="twitter-icon">
-						<img src="https://image.flaticon.com/icons/svg/124/124021.svg" alt="Twitter">
-						<span class="tooltip">Twitter: @ivanlcdev</span>
-					</a>
-					<a href="#" class="instagram-icon">
-						<img src="https://image.flaticon.com/icons/svg/174/174855.svg" alt="Instagram">
-						<span class="tooltip">Instagram: @ivanlcdev</span>
-					</a>
-					<a href="#" class="discord-icon">
-						<img src="https://image.flaticon.com/icons/svg/2111/2111370.svg" alt="Discord">
-						<span class="tooltip">Discord: ivanlc#1234</span>
-					</a>
-				</div>
-			</section>
-		</main>
-	</body>
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Miku OS — iván's Desktop</title>
+  <!-- Use platform-compatible color meta tags: Windows tile and iOS status bar -->
+  <meta name="msapplication-TileColor" content="#0ea5ff" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fuente ligera con aire tech + monoespaciada para UI -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Escritorio -->
+  <div id="desktop" aria-label="Escritorio de Miku OS">
+    <!-- Iconos (se inyectan desde script.js) -->
+  </div>
+
+  <!-- Barra de tareas -->
+  <div id="taskbar" role="navigation" aria-label="Barra de tareas">
+    <button id="start" class="glass btn-start" aria-label="Menú Inicio">
+      <span class="orb">◇</span>
+      <span class="label">Inicio</span>
+    </button>
+    <div id="task-items" class="tasks" aria-live="polite"></div>
+    <div class="tray">
+      <span id="tray-network" title="Conexión">◈</span>
+      <span id="tray-sound" title="Volumen">✦</span>
+      <span id="clock" aria-live="polite">--:--</span>
+    </div>
+  </div>
+
+  <!-- Menú Inicio -->
+  <div id="start-menu" class="glass panel hidden" role="dialog" aria-label="Menú Inicio" aria-modal="false">
+    <div class="menu-header">
+      <div class="avatar" aria-hidden="true">ミ</div>
+      <div>
+        <div class="menu-title">Miku OS</div>
+        <div class="menu-subtitle">iván's Desktop</div>
+      </div>
+    </div>
+    <div class="menu-content">
+      <button class="menu-item" data-action="about">
+        <span>Acerca de</span>
+        <small>Información del sistema</small>
+      </button>
+      <button class="menu-item" data-action="personalizar">
+        <span>Personalizar</span>
+        <small>Fondo y temas</small>
+      </button>
+      <button class="menu-item" data-action="reiniciar">
+        <span>Reiniciar</span>
+        <small>Restablecer ventanas</small>
+      </button>
+      <a class="menu-link" href="https://github.com" target="_blank" rel="noopener noreferrer">Abrir GitHub</a>
+    </div>
+  </div>
+
+  <!-- Ventanas (se crean dinámicamente) -->
+  <template id="window-template">
+    <div class="window glass" role="dialog" aria-modal="false">
+      <div class="titlebar" draggable="true">
+        <div class="title">
+          <span class="title-icon">✿</span>
+          <span class="title-text">Ventana</span>
+        </div>
+        <div class="controls">
+          <button class="btn btn-min" title="Minimizar" aria-label="Minimizar">—</button>
+          <button class="btn btn-close" title="Cerrar" aria-label="Cerrar">×</button>
+        </div>
+      </div>
+      <div class="content"></div>
+      <div class="statusbar">
+        <span class="hint">Cristal activo</span>
+      </div>
+    </div>
+  </template>
+
+  <!-- Icono de escritorio -->
+  <template id="icon-template">
+    <button class="desktop-icon" draggable="true">
+      <div class="icon-svg" aria-hidden="true"></div>
+      <span class="icon-label">App</span>
+    </button>
+  </template>
+
+  <script src="script.js"></script>
+</body>
 </html>
