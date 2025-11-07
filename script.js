@@ -19,7 +19,6 @@ const nowPlaying=document.getElementById("now-playing-text")
 function updateNowPlaying(t){
   nowPlaying.textContent=`Now playing: ${t}`
 }
-
 function loadSong(i){
   const s=playlist[i]
   player.audio.src=s.src
@@ -36,13 +35,11 @@ player.playBtn.addEventListener("click",()=>{
   if(player.audio.paused){
     player.audio.play().then(()=>{
       player.playBtn.textContent="⏸"
-      player.playBtn.style.background='linear-gradient(145deg,rgba(255,255,255,.9),rgba(200,250,255,.8))'
       updateNowPlaying(playlist[current].title)
     }).catch(()=>{})
   }else{
     player.audio.pause()
     player.playBtn.textContent="▶"
-    player.playBtn.style.background='linear-gradient(145deg,rgba(255,255,255,.8),rgba(170,235,255,.6))'
     updateNowPlaying("paused")
   }
 })
@@ -53,13 +50,8 @@ player.audio.addEventListener("timeupdate",()=>{
     player.progress.value=player.audio.currentTime
   }
 })
-
-player.progress.addEventListener("input",()=>{
-  player.audio.currentTime=player.progress.value
-})
-player.volume.addEventListener("input",()=>{
-  player.audio.volume=player.volume.value
-})
+player.progress.addEventListener("input",()=>{player.audio.currentTime=player.progress.value})
+player.volume.addEventListener("input",()=>{player.audio.volume=player.volume.value})
 
 const desktop=document.getElementById('desktop')
 const apps=[
@@ -74,24 +66,19 @@ function createIcons(){
   apps.forEach(a=>{
     const b=document.createElement('button')
     b.className='desktop-icon'
-    b.style.left=`${x}px`
-    b.style.top=`${y}px`
+    b.style.left=`${x}px`;b.style.top=`${y}px`
     b.innerHTML=`<div class="icon-svg"><span>${a.icon}</span></div><span class="icon-label">${a.label}</span>`
-    if(a.url){
-      b.onclick=()=>window.open(a.url,'_blank')
-    }else{
-      b.onclick=()=>openBlog()
-    }
+    if(a.url)b.onclick=()=>window.open(a.url,'_blank')
+    else b.onclick=()=>openBlog()
     desktop.appendChild(b)
-    y+=110
-    if(y>window.innerHeight-180){y=24;x+=110}
+    y+=110;if(y>window.innerHeight-180){y=24;x+=110}
   })
 }
 createIcons()
 
 function openBlog(){
-  const o=document.getElementById('blog-window')
-  if(o)o.remove()
+  const old=document.getElementById('blog-window')
+  if(old)old.remove()
   const w=document.createElement('div')
   w.id='blog-window'
   w.className='glass'
@@ -102,18 +89,11 @@ function openBlog(){
   w.style.minHeight='400px'
   w.style.borderRadius='16px'
   w.style.overflow='hidden'
-  w.innerHTML=
-    '<div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.2);font-weight:600;display:flex;justify-content:space-between;align-items:center;">( ˘ ³˘)ノ  Blog de Iván<button id="close-blog" style="border:0;background:transparent;color:var(--fg);cursor:pointer;font-size:18px;line-height:1;">×</button></div>'+
-    '<div id="blog-content" style="padding:12px;line-height:1.6;color:var(--fg-dim);font-family:IBM Plex Mono,monospace;max-height:320px;overflow-y:auto;">'+
-    '<p>Bienvenido a mi espacio de notas (✿◠‿◠)</p>'+
-    '<p>Aquí escribiré ideas rápidas, enlaces y posts cortos.</p>'+
-    '</div>'
+  w.innerHTML='<div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.2);font-weight:600;display:flex;justify-content:space-between;align-items:center;">( ˘ ³˘)ノ  Blog de Iván<button id="close-blog" style="border:0;background:transparent;color:var(--fg);cursor:pointer;font-size:18px;line-height:1;">×</button></div><div id="blog-content" style="padding:12px;line-height:1.6;color:var(--fg-dim);font-family:IBM Plex Mono,monospace;max-height:320px;overflow-y:auto;"><p>Bienvenido a mi espacio de notas (✿◠‿◠)</p><p>Aquí escribiré ideas rápidas, enlaces y posts cortos.</p></div>'
   document.body.appendChild(w)
   document.getElementById('close-blog').onclick=()=>w.remove()
 }
 
-const startMenu=document.getElementById('start-menu')
-const startGrid=document.getElementById('start-apps')
 const startBtn=document.getElementById('start')
 startBtn.addEventListener('click',()=>{location.reload()})
 
