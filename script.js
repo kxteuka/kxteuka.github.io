@@ -59,23 +59,76 @@ const apps=[
 function createIcons(){let x=20,y=24;apps.forEach(a=>{const b=document.createElement('button');b.className='desktop-icon';b.style.left=`${x}px`;b.style.top=`${y}px`;b.innerHTML=`<div class="icon-svg"><span>${a.icon}</span></div><span class="icon-label">${a.label}</span>`;if(a.url)b.onclick=()=>window.open(a.url,'_blank');else b.onclick=()=>openBlog();desktop.appendChild(b);y+=110;if(y>window.innerHeight-180){y=24;x+=110}})}
 createIcons()
 
-function openBlog(){
-  const old=document.getElementById('blog-window')
-  if(old)old.remove()
-  const w=document.createElement('div')
-  w.id='blog-window'
-  w.className='glass'
-  w.style.position='absolute'
-  w.style.left='50%'
-  w.style.top='120px'
-  w.style.transform='translateX(-50%)'
-  w.style.width='600px'
-  w.style.minHeight='400px'
-  w.style.borderRadius='16px'
-  w.style.overflow='hidden'
-  w.innerHTML='<div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.2);font-weight:600;display:flex;justify-content:space-between;align-items:center;">( ˘ ³˘)ノ  Notas<button id="close-blog" style="border:0;background:transparent;color:var(--fg);cursor:pointer;font-size:18px;line-height:1;">×</button></div><div id="blog-content" style="padding:12px;line-height:1.6;color:var(--fg-dim);font-family:IBM Plex Mono,monospace;max-height:320px;overflow-y:auto;"><p>Bienvenido a tus notas personales (✿◠‿◠)</p><p>Aquí puedes escribir ideas rápidas, enlaces o pensamientos.</p></div>'
+function openBlog() {
+  const old = document.getElementById('blog-window')
+  if (old) old.remove()
+
+  const w = document.createElement('div')
+  w.id = 'blog-window'
+  w.className = 'glass'
+  w.style.position = 'absolute'
+  w.style.left = '50%'
+  w.style.top = '120px'
+  w.style.transform = 'translateX(-50%)'
+  w.style.width = '700px'
+  w.style.minHeight = '460px'
+  w.style.borderRadius = '16px'
+  w.style.overflow = 'hidden'
+
+  w.innerHTML = `
+    <div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.2);
+    font-weight:600;display:flex;justify-content:space-between;align-items:center;">
+      ( ˘ ³˘)ノ  Notas
+      <button id="close-blog" style="border:0;background:transparent;color:var(--fg);
+      cursor:pointer;font-size:18px;line-height:1;">×</button>
+    </div>
+    <div style="display:grid;grid-template-columns:220px 1fr;max-height:400px;overflow:hidden;">
+      <div id="notes-list" style="padding:10px;overflow-y:auto;border-right:1px solid rgba(255,255,255,0.15);"></div>
+      <div id="blog-content" style="padding:12px;overflow-y:auto;line-height:1.6;color:var(--fg-dim);
+      font-family:'IBM Plex Mono',monospace;">Cargando notas...</div>
+    </div>
+  `
   document.body.appendChild(w)
-  document.getElementById('close-blog').onclick=()=>w.remove()
+
+  document.getElementById('close-blog').onclick = () => w.remove()
+
+  fetch('assets/notas/index.json')
+    .then(r => r.json())
+    .then(list => {
+      const menu = document.getElementById('notes-list')
+      menu.innerHTML = list.map(n => 
+        `<button class="note-btn" data-file="${n.file}" style="
+          display:block;width:100%;text-align:left;margin-bottom:6px;
+          background:linear-gradient(120deg,rgba(255,255,255,.2),rgba(255,255,255,.1));
+          border:0;border-radius:8px;padding:8px;color:var(--fg);
+          font-family:'IBM Plex Mono',monospace;cursor:pointer;
+          transition:.2s ease;">${n.title}</button>`
+      ).join('')
+
+      const loadNote = (file) => {
+        fetch('assets/notas/' + file)
+          .then(r => r.text())
+          .then(html => {
+            document.getElementById('blog-content').innerHTML = html
+          })
+          .catch(() => {
+            document.getElementById('blog-content').innerHTML =
+              '<p style="color:#f66;">No se pudo cargar la nota (＞﹏＜)</p>'
+          })
+      }
+
+      // evento al hacer clic
+      menu.querySelectorAll('.note-btn').forEach(btn => {
+        btn.addEventListener('click', () => loadNote(btn.dataset.file))
+      })
+
+      // Cargar la primera nota por defecto
+      if (list.length > 0) loadNote(list[0].file)
+    })
+    .catch(() => {
+      document.getElementById('blog-content').innerHTML =
+        '<p style="color:#f66;">No se pudieron cargar las notas (＞﹏＜)</p>'
+    })
 }
 
 const startBtn = document.getElementById('start')
