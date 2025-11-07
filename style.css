@@ -128,6 +128,7 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:linear-
 }
 
 /* menú inicio */
+/* menú inicio */
 #start-menu {
   position: fixed;
   left: 16px;
@@ -164,17 +165,29 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:linear-
   background-color: rgba(255,255,255,0.08);
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
-/* Texto de usuario desplazado */
+/* usuario visible y desplazado */
 .start-user {
   position: absolute;
   top: 12px;
   left: 24px;
   font-weight: 700;
-  color: var(--fg);
-  font-size: 1.1rem;
-  text-shadow: 0 0 8px rgba(255,255,255,.35);
+  color: #ffffff;
+  font-size: 1.15rem;
+  text-shadow: 0 0 6px rgba(0,0,0,0.8), 0 0 10px rgba(255,255,255,0.4);
+}
+
+.start-user::before {
+  content: '';
+  position: absolute;
+  inset: -4px -12px -4px -12px;
+  background: rgba(0,0,0,0.35);
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: -1;
 }
 
 /* util */
