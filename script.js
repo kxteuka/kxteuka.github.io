@@ -78,3 +78,28 @@ document.addEventListener('keydown', e => {
 
 const splash=document.getElementById('splash')
 setTimeout(()=>{splash.classList.add('hide');setTimeout(()=>{splash.style.display='none'},650)},3500)
+
+const startRight = document.getElementById('start-right')
+
+// Limpia el contenedor antes de crear los botones
+startRight.innerHTML = ''
+
+apps.forEach(app => {
+  const btn = document.createElement('button')
+  btn.className = 'start-action'
+  btn.textContent = app.label.split(' ')[0] // usa el nombre principal (X, Tidal, etc.)
+
+  if (app.url) {
+    btn.addEventListener('click', () => {
+      window.open(app.url, '_blank')
+      startMenu.classList.remove('open')
+    })
+  } else {
+    btn.addEventListener('click', () => {
+      openBlog()
+      startMenu.classList.remove('open')
+    })
+  }
+
+  startRight.appendChild(btn)
+})
