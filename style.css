@@ -164,8 +164,12 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:linear-
 
 /* zona izquierda con imagen */
 .start-left {
-  background: url("assets/start.png") center/cover no-repeat;
+  background: url("assets/start.png") center center no-repeat;
+  background-size: contain;
+  background-color: rgba(255,255,255,0.08);
   border-right: 1px solid rgba(255,255,255,.25);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* zona derecha con botones */
