@@ -127,43 +127,15 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:linear-
   transform: translateY(-3px) scale(1.05);
 }
 
-/* start menu */
 /* menú inicio */
 #start-menu {
   position: fixed;
   left: 16px;
   bottom: 74px;
-  width: 640px;
+  width: 420px;
   max-width: calc(100vw - 32px);
-  height: 420px;
-  max-height: 60vh;
+  height: 340px;
   border-radius: 20px;
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 0;
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(12px) scale(.98);
-  transition: .25s ease;
-  z-index: 970;
-  background: linear-gradient(120deg, rgba(255,255,255,.14), rgba(255,255,255,.05));
-  box-shadow: 0 15px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.25);
-  backdrop-filter: blur(20px) saturate(1.2);
-  -webkit-backdrop-filter: blur(20px) saturate(1.2);
-  border: 1px solid rgba(255,255,255,.2);
-}
-
-/* menú inicio */
-#start-menu {
-  position: fixed;
-  left: 16px;
-  bottom: 74px;
-  width: 480px;
-  max-width: calc(100vw - 32px);
-  height: 380px;
-  border-radius: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   opacity: 0;
   pointer-events: none;
   transform: translateY(12px) scale(.98);
@@ -175,6 +147,9 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:linear-
   -webkit-backdrop-filter: blur(22px) saturate(1.25);
   border: 1px solid rgba(255,255,255,.2);
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #start-menu.open {
@@ -183,68 +158,45 @@ input[type="range"]::-webkit-slider-runnable-track{height:6px;background:linear-
   transform: translateY(0) scale(1);
 }
 
-/* zona izquierda con imagen */
 .start-left {
   background: url("assets/start.png") center center no-repeat;
   background-size: contain;
   background-color: rgba(255,255,255,0.08);
-  border-right: 1px solid rgba(255,255,255,.25);
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
 }
 
-/* zona derecha con botones */
-.start-right {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 12px;
-}
-
-.start-action {
-  border: 0;
-  border-radius: 12px;
-  padding: 12px 16px;
-  text-align: center;
+/* Texto de usuario desplazado */
+.start-user {
+  position: absolute;
+  top: 12px;
+  left: 24px;
+  font-weight: 700;
   color: var(--fg);
-  font-weight: 600;
-  font-family: 'IBM Plex Mono', monospace;
-  background: linear-gradient(120deg, rgba(255,255,255,.25), rgba(255,255,255,.1));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 4px 14px rgba(0,0,0,.35);
-  transition: all .25s ease;
-  text-decoration: none;
-  font-size: .95rem;
-  letter-spacing: 0.3px;
-  text-shadow: 0 0 8px rgba(0,0,0,.5);
-}
-
-.start-action:hover {
-  transform: translateY(-2px);
-  background: linear-gradient(120deg, rgba(160,230,255,.4), rgba(255,255,255,.18));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.4), 0 6px 20px rgba(0,0,0,.45);
+  font-size: 1.1rem;
+  text-shadow: 0 0 8px rgba(255,255,255,.35);
 }
 
 /* util */
 .hidden{display:none!important}
 
 @media (max-width: 768px) {
-  #desktop {
-    background-image: url("assets/mobile.png");
-    background-position: center 35%;
-    background-size: cover;
+  #now-playing {
+    top: auto;
+    bottom: 58px;
+    width: 90%;
+    height: auto;
   }
 
   #music-player {
     right: 50%;
     transform: translateX(50%);
-    bottom: 70px;
+    bottom: 90px;
   }
 
-  #start-menu {
-    width: 90vw;
-    height: auto;
-    max-height: 70vh;
-    grid-template-columns: 1fr;
+  #blog-window {
+    left: 50% !important;
+    transform: translateX(-50%);
+    width: 90% !important;
   }
 }
