@@ -51,11 +51,3 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')startMenu.classList.
 
 const splash=document.getElementById('splash')
 setTimeout(()=>{splash.classList.add('hide');setTimeout(()=>{splash.style.display='none'},650)},3500)
-
-const mascot=document.getElementById('mascot')
-let tx=window.innerWidth/2,ty=window.innerHeight-110,cx=tx,cy=ty
-function onPoint(x,y){tx=x;ty=Math.min(Math.max(y,100),window.innerHeight-110)}
-window.addEventListener('mousemove',e=>onPoint(e.clientX,e.clientY))
-window.addEventListener('touchmove',e=>{const t=e.touches[0];onPoint(t.clientX,t.clientY)})
-function loop(){cx+= (tx-cx)*0.1; cy+= (ty-cy)*0.1; mascot.style.transform=`translate(-50%,0) translate(${cx - window.innerWidth/2}px, ${cy-(window.innerHeight-64)}px)`; requestAnimationFrame(loop)}
-loop()
