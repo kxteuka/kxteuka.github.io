@@ -22,36 +22,36 @@
   <div id="desktop"></div>
 
   <div id="taskbar">
-    <button id="start" class="glass btn-start">
-      <span class="orb">☆</span><span class="label">Inicio</span>
-    </button>
+    <button id="start" class="glass btn-start"><span class="orb">☆</span><span class="label">Inicio</span></button>
     <div id="task-items" class="tasks"></div>
-    <div class="tray">
-      <span id="tray-network">✦</span><span id="tray-sound">❈</span><span id="clock">--:--:--</span>
-    </div>
-    <div id="now-playing" class="scrolling-text">
-      <span id="now-playing-text">Now playing: —</span>
-    </div>
+    <div class="tray"><span id="tray-network">✦</span><span id="tray-sound">❈</span><span id="clock">--:--:--</span></div>
+    <div id="now-playing" class="scrolling-text hidden"><span id="now-playing-text"></span></div>
   </div>
+
+  <div id="mascot"><img src="assets/miku_mascot.png" alt="Miku"></div>
 
   <div id="music-player" class="glass">
     <div class="mp-header">(≧▽≦)♪ Reproductor</div>
     <div class="mp-controls">
       <button id="mp-play">▶</button>
-      <div class="mp-slider">
-        <input id="mp-progress" type="range" min="0" value="0" step="0.1">
-      </div>
-      <div class="mp-slider">
-        <input id="mp-volume" type="range" min="0" max="1" value="0.7" step="0.01">
-      </div>
+      <div class="mp-slider"><input id="mp-progress" type="range" min="0" value="0" step="0.1"></div>
+      <div class="mp-slider"><input id="mp-volume" type="range" min="0" max="1" value="0.7" step="0.01"></div>
     </div>
     <div id="mp-title" class="mp-title">Sin música</div>
     <audio id="mp-audio" preload="metadata"></audio>
   </div>
 
-  <div id="start-menu" class="glass hidden">
-    <div class="menu-title">(｡･ω･｡)ﾉ♡ Aplicaciones</div>
-    <div class="menu-grid" id="start-apps"></div>
+  <div id="start-menu" class="glass">
+    <div class="start-left">
+      <div class="start-user">ivanOS</div>
+      <div id="start-list" class="start-list"></div>
+    </div>
+    <div class="start-right">
+      <button id="start-open-blog" class="start-action">Blog</button>
+      <a href="https://x.com/" target="_blank" class="start-action">X</a>
+      <a href="https://listen.tidal.com/" target="_blank" class="start-action">Tidal</a>
+      <a href="https://music.youtube.com/" target="_blank" class="start-action">YouTube Music</a>
+    </div>
   </div>
 
   <script src="script.js"></script>
