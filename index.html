@@ -4,20 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Miku OS — iván's Desktop</title>
-  <!-- Use platform-compatible color meta tags: Windows tile and iOS status bar -->
-  <meta name="msapplication-TileColor" content="#0ea5ff" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0ea5ff" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fuente ligera con aire tech + monoespaciada para UI -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Escritorio -->
-  <div id="desktop" aria-label="Escritorio de Miku OS">
-    <!-- Iconos (se inyectan desde script.js) -->
-  </div>
+  <div id="desktop" aria-label="Escritorio de Miku OS"></div>
 
   <!-- Barra de tareas -->
   <div id="taskbar" role="navigation" aria-label="Barra de tareas">
@@ -25,79 +19,31 @@
       <span class="orb">◇</span>
       <span class="label">Inicio</span>
     </button>
-    <div id="task-items" class="tasks" aria-live="polite"></div>
+    <div id="task-items" class="tasks"></div>
     <div class="tray">
       <span id="tray-network" title="Conexión">◈</span>
       <span id="tray-sound" title="Volumen">✦</span>
       <span id="clock" aria-live="polite">--:--</span>
     </div>
-  </div>
 
-  <!-- Menú Inicio -->
-  <div id="start-menu" class="glass panel hidden" role="dialog" aria-label="Menú Inicio" aria-modal="false">
-    <div class="menu-header">
-      <div class="avatar" aria-hidden="true">ミ</div>
-      <div>
-        <div class="menu-title">Miku OS</div>
-        <div class="menu-subtitle">iván's Desktop</div>
-      </div>
-    </div>
-    <div class="menu-content">
-      <button class="menu-item" data-action="about">
-        <span>Acerca de</span>
-        <small>Información del sistema</small>
-      </button>
-      <button class="menu-item" data-action="personalizar">
-        <span>Personalizar</span>
-        <small>Fondo y temas</small>
-      </button>
-      <button class="menu-item" data-action="reiniciar">
-        <span>Reiniciar</span>
-        <small>Restablecer ventanas</small>
-      </button>
-      <a class="menu-link" href="https://github.com" target="_blank" rel="noopener noreferrer">Abrir GitHub</a>
+    <!-- Now playing -->
+    <div id="now-playing" class="scrolling-text">
+      <span id="now-playing-text">Now playing: —</span>
     </div>
   </div>
 
-  <!-- Ventanas (se crean dinámicamente) -->
-  <template id="window-template">
-    <div class="window glass" role="dialog" aria-modal="false">
-      <div class="titlebar" draggable="true">
-        <div class="title">
-          <span class="title-icon">✿</span>
-          <span class="title-text">Ventana</span>
-        </div>
-        <div class="controls">
-          <button class="btn btn-min" title="Minimizar" aria-label="Minimizar">—</button>
-          <button class="btn btn-close" title="Cerrar" aria-label="Cerrar">×</button>
-        </div>
-      </div>
-      <div class="content"></div>
-      <div class="statusbar">
-        <span class="hint">Cristal activo</span>
-      </div>
+  <!-- Reproductor -->
+  <div id="music-player" class="glass">
+    <div class="mp-header">🎵 Reproductor</div>
+    <div class="mp-controls">
+      <button id="mp-play">▶</button>
+      <input id="mp-progress" type="range" min="0" value="0" step="0.1">
+      <input id="mp-volume" type="range" min="0" max="1" value="0.7" step="0.01">
     </div>
-  </template>
-
-  <!-- Icono de escritorio -->
-  <template id="icon-template">
-    <button class="desktop-icon" draggable="true">
-      <div class="icon-svg" aria-hidden="true"></div>
-      <span class="icon-label">App</span>
-    </button>
-  </template>
+    <div id="mp-title" class="mp-title">Sin música</div>
+    <audio id="mp-audio" preload="metadata"></audio>
+  </div>
 
   <script src="script.js"></script>
-  <!-- === Miku OS — Reproductor de música === -->
-<div id="music-player" class="glass">
-  <div class="mp-header">🎵 Reproductor</div>
-  <div class="mp-controls">
-    <button id="mp-play" aria-label="Reproducir/Pausar">▶</button>
-    <input id="mp-progress" type="range" min="0" value="0" step="0.1" title="Progreso de la pista" aria-label="Progreso de la pista">
-    <input id="mp-volume" type="range" min="0" max="1" value="0.7" step="0.01" title="Volumen" aria-label="Volumen">
-  </div>
-  <div class="mp-title" id="mp-title">Sin música</div>
-  <audio id="mp-audio" preload="metadata"></audio>
-</div>
 </body>
 </html>

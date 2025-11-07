@@ -1,5 +1,4 @@
 :root {
-  /* Paleta Miku Aqua: más contraste, tonos fríos */
   --aero-accent: #3ce4f5;
   --aero-accent-2: #72b3ff;
   --aero-glow: rgba(114,179,255,0.7);
@@ -12,23 +11,16 @@
   --glass: rgba(15,23,42,0.35);
   --blur: 18px;
   --radius: 16px;
-  --radius-sm: 10px;
 }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; }
-html { overflow: hidden; }
 body {
   margin: 0;
-  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+  font-family: 'Montserrat', system-ui, sans-serif;
   color: var(--fg);
+  text-shadow: 0 0 4px rgba(0,0,0,0.7), 0 0 10px rgba(0,0,0,0.4);
   background: #000;
-  text-shadow:
-    0 0 4px rgba(0,0,0,0.7),
-    0 0 10px rgba(0,0,0,0.4);
 }
 
-/* Fondo del escritorio */
 #desktop {
   position: fixed; inset: 0;
   background:
@@ -37,47 +29,22 @@ body {
     url("assets/wallpaper.jpg") center/cover no-repeat fixed;
   filter: saturate(1.05) contrast(1.02);
 }
-#desktop::after {
-  content:"";
-  position:absolute; inset:0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,0.03), rgba(255,255,255,0.03) 1px,
-    transparent 2px, transparent 3px
-  );
-  pointer-events:none;
-}
 
-/* Efecto vidrio */
-.glass {
-  background: linear-gradient(120deg, rgba(15,23,42,0.45), rgba(255,255,255,0.10));
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.25);
-  backdrop-filter: blur(var(--blur)) saturate(1.25);
-  border: 1px solid rgba(255,255,255,0.3);
-  border-right-color: rgba(255,255,255,0.18);
-  border-bottom-color: rgba(255,255,255,0.18);
-  box-shadow:
-    0 10px 32px var(--aero-shadow),
-    inset 0 1px 0 rgba(255,255,255,0.35),
-    inset 0 -1px 0 rgba(255,255,255,0.08);
-}
-
-/* Barra de tareas */
+/* --- Barra de tareas --- */
 #taskbar {
   position: fixed; left: 0; right: 0; bottom: 0;
   height: 58px; padding: 8px 12px;
   display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center;
   background: linear-gradient(180deg, rgba(2,6,23,0.05), rgba(2,6,23,0.55));
   border-top: 1px solid rgba(255,255,255,0.25);
-  -webkit-backdrop-filter: blur(14px) saturate(1.3);
   backdrop-filter: blur(14px) saturate(1.3);
-  color: var(--fg);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
 }
 
 .btn-start {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 8px 14px; border-radius: 999px; border: 0; cursor: pointer;
-  color: var(--fg); font-weight: 600; letter-spacing: .2px;
+  color: var(--fg); font-weight: 600;
   background: linear-gradient(120deg, rgba(34,211,238,0.2), rgba(99,102,241,0.18));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.35), 0 6px 20px rgba(59,130,246,0.35);
 }
@@ -87,119 +54,35 @@ body {
   background: radial-gradient(circle at 30% 30%, #fff, #a7f3d0 35%, #38bdf8 60%, #6366f1 100%);
   box-shadow: 0 0 16px rgba(99,102,241,.6), inset 0 0 12px rgba(255,255,255,.8);
   font-family: 'IBM Plex Mono', monospace;
-  transform: translateZ(0);
 }
-
-.tasks { display:flex; gap:8px; align-items:center; overflow:auto; }
-.task-btn {
-  border:0; border-radius: 12px; padding: 8px 12px; cursor:pointer;
-  color: var(--fg); min-width: 140px; text-align:left;
-  background: linear-gradient(120deg, rgba(148,163,184,0.18), rgba(99,102,241,0.15));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
-}
-.task-btn.active { outline: 2px solid var(--aero-accent); }
-
 .tray { display:flex; gap:12px; align-items:center; font-family: 'IBM Plex Mono', monospace; color: var(--fg-dim); }
 
-/* Menú Inicio (si lo mantienes) */
-#start-menu {
-  position: fixed; left: 12px; bottom: 70px; width: 320px; border-radius: var(--radius);
-  overflow: hidden; opacity: 0; transform: translateY(8px) scale(0.98); pointer-events: none;
-  transition: .2s ease;
+/* --- Now Playing --- */
+#now-playing {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 24px;
+  overflow: hidden;
+  pointer-events: none;
 }
-#start-menu.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
-#start-menu .menu-header {
-  display:flex; gap:12px; padding:14px; align-items:center;
-  background: linear-gradient(90deg, rgba(34,211,238,0.25), rgba(99,102,241,0.18));
-  border-bottom: 1px solid rgba(255,255,255,0.25);
+#now-playing-text {
+  display: inline-block;
+  white-space: nowrap;
+  color: var(--fg-dim);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9rem;
+  animation: scroll-text 10s linear infinite;
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
 }
-#start-menu .avatar {
-  width:40px; height:40px; border-radius:50%;
-  display:grid; place-items:center; font-weight:700; background: rgba(255,255,255,0.2);
-  text-shadow: 0 2px 10px rgba(34,211,238,0.8);
-}
-#start-menu .menu-title { font-weight:700; -webkit-text-stroke: 0.4px rgba(0,0,0,0.25); }
-#start-menu .menu-subtitle { font-size:.85rem; color: var(--fg-muted); }
-#start-menu .menu-content { display:grid; gap:8px; padding:10px; }
-.menu-item {
-  text-align:left; border:0; border-radius:12px; padding:10px; cursor:pointer;
-  background: linear-gradient(120deg, rgba(255,255,255,0.10), rgba(148,163,184,0.10));
-  color: var(--fg);
-}
-.menu-item small { display:block; color: var(--fg-muted); }
-.menu-link {
-  padding:10px 12px; border-radius:12px; text-decoration:none; color: var(--fg);
-  background: linear-gradient(120deg, rgba(34,211,238,0.15), rgba(99,102,241,0.12));
+@keyframes scroll-text {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
 }
 
-/* Iconos de escritorio */
-.desktop-icon {
-  position: absolute; width: 92px; padding: 8px; border: 0; background: transparent; color: var(--fg);
-  display: grid; gap: 6px; justify-items: center; cursor: pointer;
-  -webkit-user-select: none;
-  user-select: none; touch-action: none;
-}
-.desktop-icon:focus { outline: 2px solid var(--aero-accent); border-radius: 8px; }
-.desktop-icon .icon-svg {
-  width: 64px; height: 64px; border-radius: 16px;
-  background: radial-gradient(120% 120% at 10% 10%, rgba(255,255,255,0.9), rgba(34,211,238,0.5) 40%, rgba(99,102,241,0.45) 70%, rgba(15,23,42,0.35) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.65),
-    inset 0 -6px 18px rgba(2,6,23,0.55),
-    0 12px 24px rgba(2,6,23,0.45);
-  position: relative;
-}
-.desktop-icon .icon-svg::after {
-  content:""; position:absolute; inset:2px; border-radius: 14px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0) 60%);
-  mix-blend-mode: screen; pointer-events:none;
-}
-.icon-label {
-  text-shadow: 0 2px 12px rgba(0,0,0,0.7);
-  font-size: .85rem; line-height: 1.1; text-align: center;
-}
-
-/* Ventanas */
-.window {
-  position: absolute; min-width: 320px; max-width: min(720px, 90vw);
-  min-height: 220px; border-radius: var(--radius); overflow: hidden;
-}
-.titlebar {
-  display:flex; align-items:center; justify-content:space-between;
-  gap: 12px; padding: 10px 12px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.25), rgba(255,255,255,0.05));
-  border-bottom: 1px solid rgba(255,255,255,0.25);
-  cursor: move;
-}
-.title { display:flex; align-items:center; gap:8px; font-weight: 600; -webkit-text-stroke: 0.4px rgba(0,0,0,0.2); }
-.title-icon { filter: drop-shadow(0 0 10px var(--aero-glow)); }
-.controls { display:flex; gap:8px; }
-.btn {
-  width: 34px; height: 28px; border-radius: 8px; border: 0; cursor: pointer; color: var(--fg);
-  background: linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
-}
-.btn:hover { outline: 2px solid rgba(255,255,255,0.25); }
-.btn-close:hover { outline-color: #fb7185; }
-.content { padding: 14px; line-height: 1.5; }
-.content .app-title { font-weight: 700; margin-bottom: 6px; -webkit-text-stroke: 0.4px rgba(0,0,0,0.2); }
-.content .app-desc { color: var(--fg-muted); margin-bottom: 12px; }
-.content .app-actions { display:flex; gap:10px; flex-wrap: wrap; }
-.app-btn {
-  border:0; border-radius: 10px; padding: 10px 12px; cursor:pointer; color: #0b1220;
-  background: linear-gradient(120deg, #a5f3fc, #c7d2fe);
-}
-.app-btn.secondary {
-  background: linear-gradient(120deg, rgba(255,255,255,0.25), rgba(255,255,255,0.15));
-  color: var(--fg);
-  border: 1px solid rgba(255,255,255,0.25);
-}
-.statusbar {
-  padding: 8px 12px; font-family: 'IBM Plex Mono', monospace; font-size: .85rem; color: var(--fg-muted);
-  border-top: 1px solid rgba(255,255,255,0.18);
-}
-
-/* Reproductor Aero */
+/* --- Reproductor --- */
 #music-player {
   position: fixed;
   bottom: 90px;
@@ -207,8 +90,8 @@ body {
   width: 280px;
   border-radius: var(--radius);
   overflow: hidden;
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.3);
   backdrop-filter: blur(var(--blur)) saturate(1.3);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.3);
   background: linear-gradient(120deg, rgba(15,23,42,0.45), rgba(255,255,255,0.08));
   box-shadow: 0 10px 40px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.25);
   border: 1px solid rgba(255,255,255,0.25);
@@ -255,11 +138,4 @@ body {
   text-align: center;
   color: var(--fg-dim);
   font-size: 0.85rem;
-}
-
-/* Responsivo */
-@media (max-width: 700px) {
-  .desktop-icon { width: 84px; }
-  .window { min-width: min(360px, 96vw); }
-  #start-menu { width: calc(100vw - 24px); left: 12px; right: 12px; }
 }
