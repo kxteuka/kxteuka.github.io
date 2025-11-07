@@ -88,5 +88,16 @@
   </template>
 
   <script src="script.js"></script>
+  <!-- === Miku OS — Reproductor de música === -->
+<div id="music-player" class="glass">
+  <div class="mp-header">🎵 Reproductor</div>
+  <div class="mp-controls">
+    <button id="mp-play" aria-label="Reproducir/Pausar">▶</button>
+    <input id="mp-progress" type="range" min="0" value="0" step="0.1" title="Progreso de la pista" aria-label="Progreso de la pista">
+    <input id="mp-volume" type="range" min="0" max="1" value="0.7" step="0.01" title="Volumen" aria-label="Volumen">
+  </div>
+  <div class="mp-title" id="mp-title">Sin música</div>
+  <audio id="mp-audio" preload="metadata"></audio>
+</div>
 </body>
 </html>

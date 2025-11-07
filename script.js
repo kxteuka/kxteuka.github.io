@@ -7,7 +7,7 @@ const APPS = [
   {
     id: 'github',
     nombre: 'GitHub',
-    url: 'https://github.com/tu-usuario', // TODO: cambia por tu perfil
+    url: 'https://github.com/kxeuka', // TODO: cambia por tu perfil
     desc: 'Repositorio y proyectos.',
     icono: '◆'
   },
@@ -23,7 +23,7 @@ const APPS = [
     nombre: 'X / Twitter',
     url: 'https://x.com/tu-usuario', // TODO
     desc: 'Microblog y actualizaciones.',
-    icono: '☄'
+    icono: 'X'
   },
   {
     id: 'correo',
@@ -46,12 +46,13 @@ const startMenu = $('#start-menu');
 let zTop = 10;
 
 /* Reloj (Europa/Madrid) */
-function updateClock(){
+function updateClock() {
   const now = new Date();
-  const opts = { hour: '2-digit', minute:'2-digit' };
+  const opts = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
   clockEl.textContent = now.toLocaleTimeString('es-ES', opts);
 }
-setInterval(updateClock, 1000); updateClock();
+setInterval(updateClock, 1000);
+updateClock();
 
 /* Iconos de escritorio */
 function createDesktopIcons(){
@@ -193,60 +194,64 @@ function toggleMinimize(win, btn){
 }
 
 /* Drag utilitario */
-function enableDrag(element, opts = {}){
-  let startX=0, startY=0, lastX=0, lastY=0, dragging=false;
+function enableDrag(element, opts = {}) {
+  let startX, startY, initX, initY, dragging = false;
 
-  const getPointer = e => e.touches ? e.touches[0] : e;
-
-  function onDown(e){
-    const p = getPointer(e);
-    startX = p.clientX; startY = p.clientY;
-    lastX = startX; lastY = startY;
+  function onMouseDown(e) {
+    const rect = element.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    initX = rect.left;
+    initY = rect.top;
     dragging = true;
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-    document.addEventListener('touchmove', onMove, {passive:false});
-    document.addEventListener('touchend', onUp);
-    if(opts.onStart) opts.onStart(element);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    element.style.transition = 'none'; // sin suavizado mientras arrastra
   }
 
-  function onMove(e){
-    if(!dragging) return;
-    const p = getPointer(e);
-    const dx = p.clientX - lastX;
-    const dy = p.clientY - lastY;
-    lastX = p.clientX; lastY = p.clientY;
-    if(opts.onMove){
-      opts.onMove(dx, dy, element);
-    }else{
-      // mover el propio elemento (iconos)
-      const rect = element.getBoundingClientRect();
-      let left = rect.left + dx;
-      let top  = rect.top + dy;
-      if(opts.constrainToDesktop){
-        left = Math.max(8, Math.min(left, window.innerWidth  - rect.width  - 8));
-        top  = Math.max(8, Math.min(top,  window.innerHeight - rect.height - 72)); // evita barra de tareas
-      }
-      element.style.left = left + 'px';
-      element.style.top  = top  + 'px';
+  function onMouseMove(e) {
+    if (!dragging) return;
+    const dx = e.clientX - startX;
+    const dy = e.clientY - startY;
+    let left = initX + dx;
+    let top = initY + dy;
 
-      if(opts.saveKey){
-        localStorage.setItem(opts.saveKey, JSON.stringify({left: element.style.left, top: element.style.top}));
-      }
+    if (opts.constrainToDesktop) {
+      left = Math.max(8, Math.min(left, window.innerWidth - element.offsetWidth - 8));
+      top = Math.max(8, Math.min(top, window.innerHeight - element.offsetHeight - 80));
     }
-    e.preventDefault?.();
+
+    element.style.left = left + 'px';
+    element.style.top = top + 'px';
   }
 
-  function onUp(){
+  function onMouseUp() {
+    if (!dragging) return;
     dragging = false;
-    document.removeEventListener('mousemove', onMove);
-    document.removeEventListener('mouseup', onUp);
-    document.removeEventListener('touchmove', onMove);
-    document.removeEventListener('touchend', onUp);
+    element.style.transition = 'left 0.1s ease, top 0.1s ease'; // efecto suave al soltar
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+
+    if (opts.saveKey) {
+      localStorage.setItem(
+        opts.saveKey,
+        JSON.stringify({ left: element.style.left, top: element.style.top })
+      );
+    }
   }
 
-  element.addEventListener('mousedown', onDown);
-  element.addEventListener('touchstart', onDown, {passive:true});
+  element.addEventListener('mousedown', onMouseDown);
+  element.addEventListener('touchstart', (e) => {
+    // emulate mouse down for a single touch to support touch devices
+    if (e.touches && e.touches[0]) {
+      onMouseDown({
+        clientX: e.touches[0].clientX,
+        clientY: e.touches[0].clientY,
+        preventDefault: () => {}
+      });
+      e.preventDefault?.();
+    }
+  }, {passive:true});
 }
 
 /* Menú Inicio */
@@ -345,4 +350,61 @@ let boostTimeout = null;
     clearTimeout(boostTimeout);
     boostTimeout = setTimeout(() => document.documentElement.style.setProperty('--blur', '18px'), 220);
   }, {passive:true});
+});
+
+/* === Reproductor de música Aero === */
+const player = {
+  audio: document.getElementById('mp-audio'),
+  playBtn: document.getElementById('mp-play'),
+  progress: document.getElementById('mp-progress'),
+  volume: document.getElementById('mp-volume'),
+  title: document.getElementById('mp-title'),
+};
+
+// Canciones (añade o cambia rutas)
+const playlist = [
+  { title: "windows breakcore - proloxx", src: "assets/windows_breakcore.mp3" },
+  // { title: "Otra canción", src: "assets/otra.mp3" },
+];
+let current = 0;
+
+// Cargar primera canción
+function loadSong(i){
+  const s = playlist[i];
+  player.audio.src = s.src;
+  player.title.textContent = s.title;
+  player.progress.value = 0;
+}
+loadSong(current);
+
+// Controles
+player.playBtn.addEventListener('click', () => {
+  if(player.audio.paused){
+    player.audio.play();
+    player.playBtn.textContent = '⏸';
+  }else{
+    player.audio.pause();
+    player.playBtn.textContent = '▶';
+  }
+});
+
+player.audio.addEventListener('timeupdate', () => {
+  if(!player.progress.getAttribute('max')){
+    player.progress.max = player.audio.duration;
+  }
+  player.progress.value = player.audio.currentTime;
+});
+
+player.progress.addEventListener('input', () => {
+  player.audio.currentTime = player.progress.value;
+});
+
+player.volume.addEventListener('input', () => {
+  player.audio.volume = player.volume.value;
+});
+
+player.audio.addEventListener('ended', () => {
+  current = (current + 1) % playlist.length;
+  loadSong(current);
+  player.audio.play();
 });
