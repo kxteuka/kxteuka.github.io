@@ -54,7 +54,7 @@ const apps=[
   {label:'X (Twitter)',icon:'(๑•‿•๑)✧',url:'https://x.com/ichbinivann'},
   {label:'Tidal',icon:'(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧',url:'https://tidal.com/@ivantibiotico'},
   {label:'YouTube Music',icon:'(≧▽≦)',url:'https://music.youtube.com/channel/UCscAeuvYUeEZ_6-eULr28vA'},
-  {label:'Notas',icon:'(｡◕‿‿◕｡)',url:null}
+  {label:'Notas',icon:'( •⌄• )✧',url:null}
 ]
 function createIcons(){let x=20,y=24;apps.forEach(a=>{const b=document.createElement('button');b.className='desktop-icon';b.style.left=`${x}px`;b.style.top=`${y}px`;b.innerHTML=`<div class="icon-svg"><span>${a.icon}</span></div><span class="icon-label">${a.label}</span>`;if(a.url)b.onclick=()=>window.open(a.url,'_blank');else b.onclick=()=>openBlog();desktop.appendChild(b);y+=110;if(y>window.innerHeight-180){y=24;x+=110}})}
 createIcons()
