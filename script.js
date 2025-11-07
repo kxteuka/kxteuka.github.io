@@ -9,7 +9,18 @@ let current=0
 const npWrap=document.getElementById("now-playing")
 const npText=document.getElementById("now-playing-text")
 
-function showNowPlaying(text){npText.classList.remove('scroll');npText.textContent=`Now playing: ${text}`;npWrap.classList.remove('hidden');setTimeout(()=>npText.classList.add('scroll'),800)}
+function showNowPlaying(text) {
+  npText.classList.remove('scroll', 'show')
+  npText.textContent = `Now playing: ${text}`
+  npWrap.classList.remove('hidden')
+
+  // Espera breve antes de mostrar el texto para suavizar
+  setTimeout(() => {
+    npText.classList.add('show')
+    setTimeout(() => npText.classList.add('scroll'), 1000)
+  }, 100)
+}
+
 function hideNowPlaying(){npWrap.classList.add('hidden');npText.classList.remove('scroll');npText.textContent=""}
 
 function loadSong(i){const s=playlist[i];player.audio.src=s.src;player.audio.load();player.audio.loop=true;player.title.textContent=s.title||"Sin música";hideNowPlaying();player.progress.value=0}
@@ -40,8 +51,9 @@ createIcons()
 
 function openBlog(){const old=document.getElementById('blog-window');if(old)old.remove();const w=document.createElement('div');w.id='blog-window';w.className='glass';w.style.position='absolute';w.style.left='120px';w.style.top='120px';w.style.width='600px';w.style.minHeight='400px';w.style.borderRadius='16px';w.style.overflow='hidden';w.innerHTML='<div style="padding:10px;border-bottom:1px solid rgba(255,255,255,0.2);font-weight:600;display:flex;justify-content:space-between;align-items:center;">( ˘ ³˘)ノ  Blog de Iván<button id="close-blog" style="border:0;background:transparent;color:var(--fg);cursor:pointer;font-size:18px;line-height:1;">×</button></div><div id="blog-content" style="padding:12px;line-height:1.6;color:var(--fg-dim);font-family:IBM Plex Mono,monospace;max-height:320px;overflow-y:auto;"><p>Bienvenido a mi espacio de notas (✿◠‿◠)</p><p>Aquí escribiré ideas rápidas, enlaces y posts cortos.</p></div>';document.body.appendChild(w);document.getElementById('close-blog').onclick=()=>w.remove()}
 
-const startBtn=document.getElementById('start')
-const startMenu=document.getElementById('start-menu')
+const startBtn = document.getElementById('start')
+const startMenu = document.getElementById('start-menu')
+
 function toggleStart() {
   const isOpen = startMenu.classList.contains('open')
   startMenu.classList.toggle('open', !isOpen)
@@ -53,17 +65,16 @@ startBtn.addEventListener('click', e => {
 })
 
 document.addEventListener('click', e => {
-  if (!startMenu.contains(e.target) && !startBtn.contains(e.target))
+  if (!startMenu.contains(e.target) && !startBtn.contains(e.target)) {
     startMenu.classList.remove('open')
+  }
 })
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape')
+  if (e.key === 'Escape') {
     startMenu.classList.remove('open')
+  }
 })
-startBtn.addEventListener('click',e=>{e.stopPropagation();toggleStart()})
-document.addEventListener('click',e=>{if(!startMenu.contains(e.target)&&!startBtn.contains(e.target))startMenu.classList.remove('open')})
-document.addEventListener('keydown',e=>{if(e.key==='Escape')startMenu.classList.remove('open')})
 
 const splash=document.getElementById('splash')
 setTimeout(()=>{splash.classList.add('hide');setTimeout(()=>{splash.style.display='none'},650)},3500)
