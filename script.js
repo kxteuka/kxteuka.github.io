@@ -122,3 +122,6 @@ startBtn.addEventListener('click',()=>{
 document.addEventListener('click',(e)=>{
   if(!startMenu.contains(e.target)&&e.target!==startBtn){startMenu.classList.remove('open');startGrid.innerHTML='';}
 });
+
+const splash=document.getElementById('splash');
+setTimeout(()=>{splash.classList.add('hide');setTimeout(()=>{splash.style.display='none';},650);},5000);
