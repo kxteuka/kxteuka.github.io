@@ -22,7 +22,6 @@ body {
   text-shadow: 0 0 4px rgba(0,0,0,0.7), 0 0 10px rgba(0,0,0,0.4);
 }
 
-/* --- Fondo del escritorio --- */
 #desktop {
   position: fixed; inset: 0;
   background:
@@ -42,7 +41,6 @@ body {
   pointer-events:none;
 }
 
-/* --- Vidrio Aero --- */
 .glass {
   background: linear-gradient(120deg, rgba(15,23,42,0.45), rgba(255,255,255,0.10));
   backdrop-filter: blur(var(--blur)) saturate(1.25);
@@ -56,7 +54,6 @@ body {
     inset 0 -1px 0 rgba(255,255,255,0.08);
 }
 
-/* --- Barra de tareas --- */
 #taskbar {
   position: fixed; left: 0; right: 0; bottom: 0;
   height: 58px; padding: 8px 12px;
@@ -69,7 +66,6 @@ body {
   z-index: 999;
 }
 
-/* Botón Inicio */
 .btn-start {
   display: inline-flex; align-items: center; gap: 10px;
   padding: 8px 14px; border-radius: 999px; border: 0; cursor: pointer;
@@ -85,11 +81,9 @@ body {
   font-family: 'IBM Plex Mono', monospace;
 }
 
-/* Área de tareas y bandeja */
 .tasks { display:flex; gap:8px; align-items:center; overflow:auto; }
 .tray { display:flex; gap:12px; align-items:center; font-family: 'IBM Plex Mono', monospace; color: var(--fg-dim); }
 
-/* --- Texto Now Playing --- */
 #now-playing {
   position: absolute;
   left: 50%;
@@ -116,28 +110,25 @@ body {
   100% { transform: translateX(-100%); }
 }
 
-/* --- Iconos del escritorio --- */
 .desktop-icon {
   position: absolute; width: 92px; padding: 8px;
   border: 0; background: transparent; color: var(--fg);
   display: grid; gap: 6px; justify-items: center;
   cursor: pointer; user-select: none; touch-action: none;
 }
-.desktop-icon .icon-svg {
+.icon-svg {
   width: 64px; height: 64px; border-radius: 16px;
   background: radial-gradient(120% 120% at 10% 10%, rgba(255,255,255,0.9), rgba(34,211,238,0.5) 40%, rgba(99,102,241,0.45) 70%, rgba(15,23,42,0.35) 100%);
   box-shadow:
     inset 0 1px 0 rgba(255,255,255,0.65),
     inset 0 -6px 18px rgba(2,6,23,0.55),
     0 12px 24px rgba(2,6,23,0.45);
-  display:grid; place-items:center;
+  display:flex; align-items:center; justify-content:center;
+  padding: 4px; overflow: hidden;
 }
-.icon-label {
-  font-size: .85rem; line-height: 1.1; text-align: center;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.7);
-}
+.icon-svg span { display:inline-block; transform: scale(0.85); line-height: 1.1; text-align: center; }
+.icon-label { font-size: .85rem; line-height: 1.1; text-align: center; text-shadow: 0 2px 12px rgba(0,0,0,0.7); }
 
-/* --- Ventanas (para tu blog u otras apps) --- */
 .window {
   position: absolute; min-width: 320px; max-width: min(720px, 90vw);
   min-height: 220px; border-radius: var(--radius); overflow: hidden;
@@ -165,7 +156,6 @@ body {
   border-top: 1px solid rgba(255,255,255,0.18);
 }
 
-/* --- Reproductor Aero --- */
 #music-player {
   position: fixed;
   bottom: 90px;
@@ -207,23 +197,44 @@ body {
   transition: transform .2s ease;
 }
 #mp-play:hover { transform: scale(1.1); }
-#mp-progress {
-  flex: 1;
-  height: 4px;
-  accent-color: var(--aero-accent);
-}
-#mp-volume {
-  width: 50px;
-  accent-color: var(--aero-accent);
-}
-#music-player .mp-title {
-  padding: 6px 10px 10px;
-  text-align: center;
-  color: var(--fg-dim);
-  font-size: 0.85rem;
-}
+#mp-progress { flex: 1; height: 4px; accent-color: var(--aero-accent); }
+#mp-volume { width: 50px; accent-color: var(--aero-accent); }
+#music-player .mp-title { padding: 6px 10px 10px; text-align: center; color: var(--fg-dim); font-size: 0.85rem; }
 
-/* --- Responsivo --- */
+#start-menu {
+  position: fixed;
+  left: 20px;
+  bottom: 80px;
+  width: 340px;
+  border-radius: var(--radius);
+  padding: 14px;
+  backdrop-filter: blur(var(--blur)) saturate(1.3);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.3);
+  background: linear-gradient(120deg, rgba(15,23,42,0.45), rgba(255,255,255,0.08));
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+  transform: translateY(20px) scale(0.95);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+#start-menu.open { transform: translateY(0) scale(1); opacity: 1; pointer-events: auto; }
+#start-menu .menu-title { text-align: center; font-weight: 600; margin-bottom: 10px; font-family: 'IBM Plex Mono', monospace; color: var(--fg-dim); }
+.menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.menu-grid .app {
+  text-align: center;
+  background: linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+  border-radius: 12px;
+  padding: 10px 0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transform: translateY(10px);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(.25,.8,.25,1);
+}
+.menu-grid .app.visible { transform: translateY(0); opacity: 1; }
+
+.hidden { display: none !important; }
+
 @media (max-width: 700px) {
   .desktop-icon { width: 84px; }
   .window { min-width: min(360px, 96vw); }
