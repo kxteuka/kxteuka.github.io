@@ -3,10 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Miku OS — iván's Desktop</title>
+  <title>Miku OS — iván’s Desktop</title>
   <meta name="theme-color" content="#0ea5ff" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -14,19 +12,16 @@
   <div id="desktop" aria-label="Escritorio de Miku OS"></div>
 
   <!-- Barra de tareas -->
-  <div id="taskbar" role="navigation" aria-label="Barra de tareas">
-    <button id="start" class="glass btn-start" aria-label="Menú Inicio">
-      <span class="orb">◇</span>
-      <span class="label">Inicio</span>
+  <div id="taskbar">
+    <button id="start" class="glass btn-start">
+      <span class="orb">☆</span><span class="label">Inicio</span>
     </button>
     <div id="task-items" class="tasks"></div>
     <div class="tray">
-      <span id="tray-network" title="Conexión">◈</span>
-      <span id="tray-sound" title="Volumen">✦</span>
-      <span id="clock" aria-live="polite">--:--</span>
+      <span id="tray-network">✦</span>
+      <span id="tray-sound">❈</span>
+      <span id="clock">--:--</span>
     </div>
-
-    <!-- Now playing -->
     <div id="now-playing" class="scrolling-text">
       <span id="now-playing-text">Now playing: —</span>
     </div>
@@ -34,7 +29,7 @@
 
   <!-- Reproductor -->
   <div id="music-player" class="glass">
-    <div class="mp-header">🎵 Reproductor</div>
+    <div class="mp-header">(⌒▽⌒)♪ Reproductor</div>
     <div class="mp-controls">
       <button id="mp-play">▶</button>
       <input id="mp-progress" type="range" min="0" value="0" step="0.1">
