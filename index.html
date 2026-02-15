@@ -16,13 +16,30 @@
     }
 
     #ui {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        text-align: center;
-        z-index: 10;
-        pointer-events: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* El truco del 50% nos centra, pero el transform nos clava en el centro real */
+    transform: translate(-50%, -50%); 
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+    width: 100%; /* Asegura que el contenedor ocupe el ancho para centrar el texto */
+    }
+
+    h1 {
+    font-size: clamp(2rem, 8vw, 4rem); /* Tamaño fluido: se adapta a móvil y PC */
+    margin: 0;
+    padding: 0;
+    /* MUY IMPORTANTE: El letter-spacing añade espacio a la DERECHA de cada letra. 
+       Para que el texto no se vea desplazado a la izquierda, añadimos un margin-right negativo igual. */
+    letter-spacing: 0.5em; 
+    margin-right: -0.5em; 
+    
+    font-weight: 700;
+    line-height: 1; /* Evita que espacios arriba/abajo lo desplacen */
+    text-transform: uppercase;
+    animation: glow 3s infinite alternate;
     }
 
     .email-link {
@@ -30,20 +47,6 @@
         color: #00ffcc;
         pointer-events: auto;
         transition: all 0.4s ease;
-    }
-
-    h1 {
-        font-size: 4rem;
-        letter-spacing: 0.5em; /* Mucho más espacio entre letras */
-        text-transform: uppercase;
-        margin: 0;
-        font-weight: 700;
-        /* Efecto de Neón */
-        text-shadow: 
-            0 0 10px rgba(0, 255, 204, 0.5),
-            0 0 20px rgba(0, 255, 204, 0.3),
-            0 0 40px rgba(0, 255, 204, 0.1);
-        animation: glow 3s infinite alternate;
     }
 
     p {
