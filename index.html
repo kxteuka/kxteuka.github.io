@@ -5,71 +5,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kateuka</title>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            background-color: #050505;
-            font-family: 'Inter', -apple-system, sans-serif;
-            color: white;
-        }
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-        #ui {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            pointer-events: none; /* Permite que el ratón pase a través del texto hacia el 3D */
-            z-index: 10;
-        }
+    body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #050505;
+        font-family: 'Orbitron', sans-serif; /* Tipografía futurista */
+        color: white;
+    }
 
-        h1 {
-            font-size: 3.5rem;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            margin: 0;
-            font-weight: 200;
-            opacity: 0.8;
-        }
+    #ui {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        z-index: 10;
+        pointer-events: none;
+    }
 
-        p {
-            font-size: 0.9rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: #00ffcc;
-            margin-top: 10px;
-        }
+    .email-link {
+        text-decoration: none;
+        color: #00ffcc;
+        pointer-events: auto;
+        transition: all 0.4s ease;
+    }
 
-        canvas {
-            display: block;
-        }
-        .email-link {
-            text-decoration: none; /* Quita el subrayado */
-            color: inherit;       /* Mantiene el color blanco */
-            pointer-events: auto;  /* ¡Importante! Permite que sea clicable */
-            transition: opacity 0.3s ease;
-        }
+    h1 {
+        font-size: 4rem;
+        letter-spacing: 0.5em; /* Mucho más espacio entre letras */
+        text-transform: uppercase;
+        margin: 0;
+        font-weight: 700;
+        /* Efecto de Neón */
+        text-shadow: 
+            0 0 10px rgba(0, 255, 204, 0.5),
+            0 0 20px rgba(0, 255, 204, 0.3),
+            0 0 40px rgba(0, 255, 204, 0.1);
+        animation: glow 3s infinite alternate;
+    }
 
-        .email-link:hover {
-            opacity: 0.5; /* Efecto visual al pasar el ratón */
-            cursor: pointer;
-        }
+    p {
+        font-size: 0.7rem;
+        letter-spacing: 0.8em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 20px;
+        font-family: sans-serif; /* Contraste con el título */
+    }
 
-        /* Ajuste extra para el contenedor */
-        #ui {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            z-index: 10;
-            pointer-events: none; /* El contenedor no bloquea el 3D... */
+    /* Animación de parpadeo sutil */
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5), 0 0 20px rgba(0, 255, 204, 0.3);
+            opacity: 0.9;
         }
+        to {
+            text-shadow: 0 0 20px rgba(0, 255, 204, 0.8), 0 0 40px rgba(0, 255, 204, 0.4);
+            opacity: 1;
+        }
+    }
 
-        #ui h1, #ui p {
-            pointer-events: auto; /* ...pero el texto sí es interactivo */
-        }
-    </style>
+    .email-link:hover h1 {
+        color: #fff;
+        text-shadow: 0 0 30px #00ffcc, 0 0 60px #00ffcc;
+        transform: scale(1.05);
+    }
+
+    canvas {
+        display: block;
+    }
+</style>
 </head>
 <body>
 
