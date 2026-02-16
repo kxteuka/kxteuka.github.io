@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>kateuka</title>
+    <title>Kateuka | Interactive Experience</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
@@ -31,7 +31,6 @@
         .email-link {
             text-decoration: none;
             pointer-events: auto;
-            transition: all 0.3s ease;
         }
 
         .email-text {
@@ -42,6 +41,7 @@
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
             border-bottom: 1px solid rgba(0, 255, 255, 0.2);
             padding-bottom: 5px;
+            transition: all 0.3s ease;
         }
 
         .email-link:hover .email-text {
@@ -85,8 +85,11 @@
         function init() {
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x050505);
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = window.innerWidth < window.innerHeight ? 5 : 3;
+
+            const aspectRatio = window.innerWidth / window.innerHeight;
+            camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
+            camera.position.z = aspectRatio < 1 ? 5 : 3;
+
             renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -116,54 +119,15 @@
 
             document.addEventListener('mousedown', () => isDragging = true);
             document.addEventListener('mouseup', () => isDragging = false);
-            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('mousemove', (e) => handleMove(e));
 
             document.addEventListener('touchstart', (e) => {
                 isDragging = true;
                 previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
             }, { passive: false });
+
             document.addEventListener('touchend', () => isDragging = false);
-            document.addEventListener('touchmove', (e) => {
-                if (e.cancelable) e.preventDefault();
-                handleMove(e.touches[0]);
-            }, { passive: false });
 
-            window.addEventListener('resize', onWindowResize, false);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            
-            if (window.innerWidth < window.innerHeight) {
-                camera.position.z = 5;
-            } else {
-                camera.position.z = 3;
-            }
-            
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-            const pGeometry = new THREE.BufferGeometry();
-            const pCount = 300;
-            const coords = new Float32Array(pCount * 3);
-            for (let i = 0; i < pCount * 3; i++) {
-                coords[i] = (Math.random() - 0.5) * 10;
-            }
-            pGeometry.setAttribute('position', new THREE.BufferAttribute(coords, 3));
-            const pMaterial = new THREE.PointsMaterial({ color: 0x444444, size: 0.015 });
-            particles = new THREE.Points(pGeometry, pMaterial);
-            scene.add(particles);
-
-            document.addEventListener('mousedown', () => isDragging = true);
-            document.addEventListener('mouseup', () => isDragging = false);
-            document.addEventListener('mousemove', handleMove);
-
-            document.addEventListener('touchstart', (e) => {
-                isDragging = true;
-                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }, { passive: false });
-            document.addEventListener('touchend', () => isDragging = false);
             document.addEventListener('touchmove', (e) => {
                 if (e.cancelable) e.preventDefault();
                 handleMove(e.touches[0]);
@@ -186,6 +150,18 @@
                 sphere.rotation.x += deltaMove.y * 0.008;
             }
             previousMousePosition = { x: clientX, y: clientY };
+        }
+
+        function onWindowResize() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const aspectRatio = width / height;
+
+            camera.aspect = aspectRatio;
+            camera.position.z = aspectRatio < 1 ? 5 : 3;
+            
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
         }
 
         function animate() {
