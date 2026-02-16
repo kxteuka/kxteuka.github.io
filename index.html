@@ -66,6 +66,8 @@
         let isDragging = false;
         let previousMousePosition = { x: 0, y: 0 };
         let hue = 0;
+        let targetScale = 1;
+        let currentScale = 1;
 
         init();
         animate();
@@ -80,6 +82,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             document.body.appendChild(renderer.domElement);
+
             const geometry = new THREE.IcosahedronGeometry(1.4, 1);
             const material = new THREE.MeshBasicMaterial({ 
                 color: 0x00ffff, 
@@ -90,6 +93,7 @@
             });
             sphere = new THREE.Mesh(geometry, material);
             scene.add(sphere);
+
             const pGeometry = new THREE.BufferGeometry();
             const pCount = 300;
             const coords = new Float32Array(pCount * 3);
@@ -118,13 +122,12 @@
 
         function startInteract() {
             isDragging = true;
-            sphere.scale.set(1.15, 1.15, 1.15);
+            targetScale = 1.2; // Escala objetivo al clicar
         }
 
         function endInteract() {
             isDragging = false;
-            sphere.scale.set(1, 1, 1);
-            sphere.material.color.setHex(0x00ffff);
+            targetScale = 1; // Volver a escala normal
         }
 
         function handleMove(e) {
@@ -137,8 +140,9 @@
                 };
                 sphere.rotation.y += deltaMove.x * 0.008;
                 sphere.rotation.x += deltaMove.y * 0.008;
-                hue = (hue + 2) % 360;
-                sphere.material.color.setHSL(hue / 360, 1, 0.5);
+                
+                hue = (hue + 1.5) % 360;
+                sphere.material.color.setHSL(hue / 360, 0.8, 0.5);
             }
             previousMousePosition = { x: clientX, y: clientY };
         }
@@ -155,10 +159,20 @@
 
         function animate() {
             requestAnimationFrame(animate);
+
+            // Suavizado de escala (Lerp)
+            currentScale += (targetScale - currentScale) * 0.1;
+            sphere.scale.set(currentScale, currentScale, currentScale);
+
             if (!isDragging) {
                 sphere.rotation.y += 0.0015;
                 sphere.rotation.x += 0.001;
+                
+                // Volver gradualmente al cian original
+                const targetColor = new THREE.Color(0x00ffff);
+                sphere.material.color.lerp(targetColor, 0.05);
             }
+
             particles.rotation.y += 0.0002;
             renderer.render(scene, camera);
         }
