@@ -108,6 +108,7 @@
             document.addEventListener('mousedown', startInteract);
             document.addEventListener('mouseup', endInteract);
             document.addEventListener('mousemove', (e) => handleMove(e));
+            
             document.addEventListener('touchstart', (e) => {
                 startInteract();
                 previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
@@ -117,22 +118,24 @@
                 if (e.cancelable) e.preventDefault();
                 handleMove(e.touches[0]);
             }, { passive: false });
+
             window.addEventListener('resize', onWindowResize, false);
         }
 
         function startInteract() {
             isDragging = true;
-            targetScale = 1.2; // Escala objetivo al clicar
+            targetScale = 1.2;
         }
 
         function endInteract() {
             isDragging = false;
-            targetScale = 1; // Volver a escala normal
+            targetScale = 1;
         }
 
         function handleMove(e) {
-            const clientX = e.clientX || e.pageX;
-            const clientY = e.clientY || e.pageY;
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+
             if (isDragging) {
                 const deltaMove = {
                     x: clientX - previousMousePosition.x,
@@ -140,9 +143,6 @@
                 };
                 sphere.rotation.y += deltaMove.x * 0.008;
                 sphere.rotation.x += deltaMove.y * 0.008;
-                
-                hue = (hue + 1.5) % 360;
-                sphere.material.color.setHSL(hue / 360, 0.8, 0.5);
             }
             previousMousePosition = { x: clientX, y: clientY };
         }
@@ -160,15 +160,15 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Suavizado de escala (Lerp)
             currentScale += (targetScale - currentScale) * 0.1;
             sphere.scale.set(currentScale, currentScale, currentScale);
 
-            if (!isDragging) {
+            if (isDragging) {
+                hue = (hue + 1.5) % 360;
+                sphere.material.color.setHSL(hue / 360, 0.8, 0.5);
+            } else {
                 sphere.rotation.y += 0.0015;
                 sphere.rotation.x += 0.001;
-                
-                // Volver gradualmente al cian original
                 const targetColor = new THREE.Color(0x00ffff);
                 sphere.material.color.lerp(targetColor, 0.05);
             }
