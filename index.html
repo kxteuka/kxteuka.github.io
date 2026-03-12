@@ -8,13 +8,12 @@
     :root {
       --bg1: #0b1020;
       --bg2: #11182d;
-      --glow1: #7c3aed;
-      --glow2: #06b6d4;
+      --glow1: rgba(124, 58, 237, 0.35);
+      --glow2: rgba(6, 182, 212, 0.25);
       --card: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.16);
+      --border: rgba(255, 255, 255, 0.14);
       --text: #f8fafc;
       --muted: #cbd5e1;
-      --accent: #a78bfa;
     }
 
     * {
@@ -34,191 +33,58 @@
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
       background:
-        radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.35), transparent 25%),
-        radial-gradient(circle at 85% 80%, rgba(6, 182, 212, 0.28), transparent 25%),
+        radial-gradient(circle at 20% 20%, var(--glow1), transparent 25%),
+        radial-gradient(circle at 80% 80%, var(--glow2), transparent 25%),
         linear-gradient(135deg, var(--bg1), var(--bg2));
     }
 
     .card {
       width: 100%;
-      max-width: 760px;
-      padding: 56px;
+      max-width: 680px;
+      padding: 56px 48px;
       border-radius: 28px;
       background: var(--card);
       border: 1px solid var(--border);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        120deg,
-        rgba(255, 255, 255, 0.08),
-        rgba(255, 255, 255, 0.02) 40%,
-        rgba(255, 255, 255, 0.00)
-      );
-      pointer-events: none;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      margin-bottom: 22px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      font-size: 0.92rem;
-      letter-spacing: 0.03em;
-    }
-
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--glow1), var(--glow2));
-      box-shadow: 0 0 12px rgba(167, 139, 250, 0.8);
+      text-align: center;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(3rem, 8vw, 5.6rem);
-      line-height: 0.94;
+      font-size: clamp(3rem, 9vw, 5.5rem);
+      line-height: 0.95;
       letter-spacing: -0.05em;
-    }
-
-    .lead {
-      margin: 22px 0 0;
-      max-width: 580px;
-      color: var(--muted);
-      font-size: 1.08rem;
-      line-height: 1.75;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-top: 34px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px 20px;
-      border-radius: 14px;
-      text-decoration: none;
       font-weight: 700;
-      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease;
     }
 
-    .button:hover {
-      transform: translateY(-2px);
-    }
-
-    .button.primary {
-      background: #ffffff;
-      color: #0b1020;
-    }
-
-    .button.secondary {
-      background: rgba(255, 255, 255, 0.07);
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-    }
-
-    .meta {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-      margin-top: 42px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .meta-block {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .meta-label {
+    .email {
+      display: inline-block;
+      margin-top: 24px;
       color: var(--muted);
-      font-size: 0.88rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    .meta-value,
-    .meta-value a {
-      color: var(--text);
       text-decoration: none;
-      font-size: 1rem;
+      font-size: 1.05rem;
+      transition: color 0.2s ease, transform 0.2s ease;
     }
 
-    .meta-value a:hover {
-      color: var(--accent);
+    .email:hover {
+      color: var(--text);
+      transform: translateY(-1px);
     }
 
     @media (max-width: 640px) {
       .card {
-        padding: 34px 24px;
+        padding: 40px 24px;
         border-radius: 22px;
-      }
-
-      .actions {
-        flex-direction: column;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .meta {
-        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
   <main class="card">
-    <div class="eyebrow">
-      <span class="dot"></span>
-      Personal website
-    </div>
-
     <h1>Iván López</h1>
-
-    <p class="lead">
-      Web personal de Iván López. Un espacio simple, cuidado y directo para presentar mi nombre y mi forma de contacto.
-    </p>
-
-    <div class="actions">
-      <a class="button primary" href="mailto:ivan@kateuka.org">Escríbeme</a>
-      <a class="button secondary" href="mailto:ivan@kateuka.org">ivan@kateuka.org</a>
-    </div>
-
-    <section class="meta">
-      <div class="meta-block">
-        <span class="meta-label">Nombre</span>
-        <span class="meta-value">Iván López</span>
-      </div>
-
-      <div class="meta-block">
-        <span class="meta-label">Email</span>
-        <span class="meta-value">
-          <a href="mailto:ivan@kateuka.org">ivan@kateuka.org</a>
-        </span>
-      </div>
-    </section>
+    <a class="email" href="mailto:ivan@kateuka.org">ivan@kateuka.org</a>
   </main>
 </body>
 </html>
