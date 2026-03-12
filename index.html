@@ -1,181 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>kateuka</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #050505;
-            font-family: 'Orbitron', sans-serif;
-            touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-        }
-        #ui {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            text-align: right;
-            z-index: 100;
-        }
-        .email-link {
-            text-decoration: none;
-            pointer-events: auto;
-        }
-        .email-text {
-            color: #00ffff;
-            font-size: clamp(0.7rem, 4vw, 0.9rem);
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-            padding-bottom: 5px;
-            transition: all 0.3s ease;
-        }
-        .email-link:hover .email-text {
-            color: #fff;
-            text-shadow: 0 0 20px #00ffff, 0 0 30px #00ffff;
-            border-bottom: 1px solid #00ffff;
-        }
-        canvas {
-            display: block;
-            width: 100vw;
-            height: 100vh;
-        }
-        @media (max-width: 480px) {
-            #ui { bottom: 20px; right: 20px; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iván López</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #fff;
+      color: #111;
+      text-align: center;
+    }
+
+    .wrap h1 {
+      margin-bottom: 10px;
+      font-size: 2.2rem;
+    }
+
+    .wrap a {
+      color: #111;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .wrap a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <div id="ui">
-        <a href="mailto:ivan@kateuka.org" class="email-link">
-            <span class="email-text">ivan@kateuka.org</span>
-        </a>
-    </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script>
-        let scene, camera, renderer, sphere, particles;
-        let isDragging = false;
-        let previousMousePosition = { x: 0, y: 0 };
-        let hue = 0;
-        let targetScale = 1;
-        let currentScale = 1;
-
-        init();
-        animate();
-
-        function init() {
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x050505);
-            const aspectRatio = window.innerWidth / window.innerHeight;
-            camera = new THREE.PerspectiveCamera(75, aspectRatio, 0.1, 1000);
-            camera.position.z = aspectRatio < 1 ? 5 : 3;
-            renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-            document.body.appendChild(renderer.domElement);
-
-            const geometry = new THREE.IcosahedronGeometry(1.4, 1);
-            const material = new THREE.MeshBasicMaterial({ 
-                color: 0x00ffff, 
-                wireframe: true,
-                transparent: true,
-                opacity: 0.6,
-                blending: THREE.AdditiveBlending
-            });
-            sphere = new THREE.Mesh(geometry, material);
-            scene.add(sphere);
-
-            const pGeometry = new THREE.BufferGeometry();
-            const pCount = 300;
-            const coords = new Float32Array(pCount * 3);
-            for (let i = 0; i < pCount * 3; i++) {
-                coords[i] = (Math.random() - 0.5) * 10;
-            }
-            pGeometry.setAttribute('position', new THREE.BufferAttribute(coords, 3));
-            const pMaterial = new THREE.PointsMaterial({ color: 0x444444, size: 0.015 });
-            particles = new THREE.Points(pGeometry, pMaterial);
-            scene.add(particles);
-
-            document.addEventListener('mousedown', startInteract);
-            document.addEventListener('mouseup', endInteract);
-            document.addEventListener('mousemove', (e) => handleMove(e));
-            
-            document.addEventListener('touchstart', (e) => {
-                startInteract();
-                previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-            }, { passive: false });
-            document.addEventListener('touchend', endInteract);
-            document.addEventListener('touchmove', (e) => {
-                if (e.cancelable) e.preventDefault();
-                handleMove(e.touches[0]);
-            }, { passive: false });
-
-            window.addEventListener('resize', onWindowResize, false);
-        }
-
-        function startInteract() {
-            isDragging = true;
-            targetScale = 1.2;
-        }
-
-        function endInteract() {
-            isDragging = false;
-            targetScale = 1;
-        }
-
-        function handleMove(e) {
-            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
-
-            if (isDragging) {
-                const deltaMove = {
-                    x: clientX - previousMousePosition.x,
-                    y: clientY - previousMousePosition.y
-                };
-                sphere.rotation.y += deltaMove.x * 0.008;
-                sphere.rotation.x += deltaMove.y * 0.008;
-            }
-            previousMousePosition = { x: clientX, y: clientY };
-        }
-
-        function onWindowResize() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            const aspectRatio = width / height;
-            camera.aspect = aspectRatio;
-            camera.position.z = aspectRatio < 1 ? 5 : 3;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        }
-
-        function animate() {
-            requestAnimationFrame(animate);
-
-            currentScale += (targetScale - currentScale) * 0.1;
-            sphere.scale.set(currentScale, currentScale, currentScale);
-
-            if (isDragging) {
-                hue = (hue + 1.5) % 360;
-                sphere.material.color.setHSL(hue / 360, 0.8, 0.5);
-            } else {
-                sphere.rotation.y += 0.0015;
-                sphere.rotation.x += 0.001;
-                const targetColor = new THREE.Color(0x00ffff);
-                sphere.material.color.lerp(targetColor, 0.05);
-            }
-
-            particles.rotation.y += 0.0002;
-            renderer.render(scene, camera);
-        }
-    </script>
+  <div class="wrap">
+    <h1>Iván López</h1>
+    <a href="mailto:ivan@kateuka.org">ivan@kateuka.org</a>
+  </div>
 </body>
 </html>
