@@ -2,7 +2,6 @@
   color-scheme: light dark;
   --bg: #ffffff;
   --text: #1f1f1f;
-  --muted: #444444;
   --surface: #f3f3f3;
   --surface-hover: #e7e7e7;
   --focus-ring: rgba(31, 31, 31, 0.24);
@@ -14,7 +13,6 @@
   :root {
     --bg: #0f0f0f;
     --text: #f1f1f1;
-    --muted: #cfcfcf;
     --surface: #1b1b1b;
     --surface-hover: #262626;
     --focus-ring: rgba(241, 241, 241, 0.3);
@@ -38,7 +36,6 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: "Roboto Condensed", sans-serif;
-  text-align: center;
   box-sizing: border-box;
 }
 
@@ -68,11 +65,6 @@ h1 {
   text-align: left;
 }
 
-.profile-actions {
-  display: flex;
-  justify-content: center;
-}
-
 .subtitle {
   margin: 0;
   font-size: 1.1rem;
@@ -83,17 +75,18 @@ h1 {
   display: grid;
   grid-template-columns: repeat(6, max-content);
   justify-content: center;
+  justify-items: center;
   gap: 4px 2px;
   margin-top: 20px;
 }
 
 .action-button {
-  display: inline-flex;
+  display: inline-grid;
+  grid-template-columns: 20px 76px;
   align-items: center;
-  justify-content: center;
-  gap: 9px;
+  column-gap: 10px;
   min-height: 42px;
-  padding: 9px 14px;
+  padding: 9px 12px;
   border-radius: 999px;
   border: 1px solid transparent;
   background: var(--surface);
@@ -104,6 +97,7 @@ h1 {
   line-height: 1;
   white-space: nowrap;
   box-sizing: border-box;
+  justify-self: center;
   grid-column: span 2;
   box-shadow: var(--button-shadow);
   transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
@@ -131,36 +125,28 @@ h1 {
 }
 
 .action-icon {
+  display: grid;
   width: 20px;
   height: 20px;
+  place-items: center;
   fill: currentColor;
-  flex: 0 0 auto;
 }
 
 .action-glyph {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  place-items: center;
   font-family: "Segoe UI Symbol", "Apple Symbols", serif;
-  font-size: 20px;
+  font-size: 19px;
   line-height: 1;
-  flex: 0 0 auto;
 }
 
-
-@keyframes bounce-in-down {
-  0% {
-    transform: translateY(-28px);
-  }
-
-  55% {
-    transform: translateY(8px);
-  }
-
-  78% {
-    transform: translateY(-3px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
+.action-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20px;
 }
 
 main {
@@ -168,17 +154,8 @@ main {
   min-height: calc(100dvh - 40px);
   box-sizing: border-box;
   padding-inline: clamp(12px, 2.6vw, 28px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: bounce-in-down 0.8s cubic-bezier(0.2, 0.8, 0.24, 1) 0.05s both;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  main {
-    animation: none;
-    transition: none;
-  }
+  display: grid;
+  align-content: center;
 }
 
 @media (max-width: 560px) {
@@ -196,12 +173,17 @@ main {
   }
 
   .actions {
-    grid-template-columns: 1fr;
+    grid-template-columns: max-content;
+    width: max-content;
+    justify-content: center;
+    justify-self: center;
+    justify-items: stretch;
   }
 
   .actions .action-button,
   .actions .action-button:nth-child(4),
   .actions .action-button:nth-child(5) {
+    width: 100%;
     grid-column: auto;
   }
 }
