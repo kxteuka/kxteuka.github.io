@@ -1,0 +1,60 @@
+
+media:
+  input: public/images
+  output: /images
+  categories: [image]
+
+content:
+  - name: posts
+    label: Artículos
+    type: collection
+    path: src/content/blog
+    filename: "{primary}.md"
+    format: yaml-frontmatter
+
+    view:
+      primary: title
+      fields: [title, pubDate, draft]
+
+    fields:
+      - name: title
+        label: Título
+        type: string
+        required: true
+
+      - name: description
+        label: Descripción
+        type: text
+        required: true
+
+      - name: pubDate
+        label: Fecha de publicación
+        type: date
+        required: true
+
+      - name: updatedDate
+        label: Fecha de actualización
+        type: date
+
+      - name: heroImage
+        label: Imagen de portada
+        type: image
+
+      - name: tags
+        label: Etiquetas
+        type: string
+        list: true
+
+      - name: draft
+        label: Borrador
+        type: boolean
+        default: false
+
+      - name: featured
+        label: Artículo destacado
+        type: boolean
+        default: false
+
+      - name: body
+        label: Contenido del artículo
+        type: rich-text
